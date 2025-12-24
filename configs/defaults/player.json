@@ -1,0 +1,61 @@
+{
+  "nickname": "HyacineLover",
+  "gender": 2,
+  "level": 70,
+  "exp": 0,
+  "world_level": 6,
+  "stamina": 300,
+  "reserve_stamina": 0,
+  "next_recover_time_ms": 0,
+  "signature": "",
+  "current_head_icon_id": 200139,
+  "unlocked_head_icon_ids": [
+    200139
+  ],
+  "head_frame_expire_time": 4294967295,
+  "head_frame_item_id": 226004,
+  "current_personal_card_id": 253001,
+  "unlocked_personal_card_ids": [
+    253001
+  ],
+  "assist_avatar_ids": [
+    1407,
+    1403,
+    1402
+  ],
+  "display_avatars": [
+    { "avatar_id": 1401, "pos": 1 },
+    { "avatar_id": 1001, "pos": 2 },
+    { "avatar_id": 1225, "pos": 3 },
+    { "avatar_id": 1317, "pos": 4 },
+    { "avatar_id": 1222, "pos": 5 }
+  ],
+  "gameplay_birthday": 101,
+  "cur_chat_bubble": 0,
+  "cur_phone_theme": 0,
+  "cur_phone_case": 254001,
+  "owned_chat_bubbles": [0],
+  "owned_phone_themes": [0],
+  "owned_phone_cases": [254001],
+  "entry_id": 2031301,
+  "plane_id": 20313,
+  "floor_id": 20313001,
+  "teleport_id": 1,
+  "x": 40748,
+  "y": 192819,
+  "z": 439218,
+  "map_layer": 2,
+  "current_lineup_index": 0,
+  "lineups": {
+    "0": {
+      "index": 0,
+      "name": "Team 1",
+      "leader_slot": 0,
+      "avatar_ids": [1321, 1310, 1225, 8006],
+      "mp": 5,
+      "max_mp": 5
+    }
+  },
+  "avatar_enhanced_ids": {},
+  "current_multi_path": {}
+}

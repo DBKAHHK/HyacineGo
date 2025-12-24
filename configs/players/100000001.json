@@ -1,0 +1,163 @@
+{
+  "uid": 100000001,
+  "account_uid": "",
+  "nickname": "HyacineLover",
+  "gender": 1,
+  "last_set_nickname_time_ms": 0,
+  "level": 70,
+  "exp": 0,
+  "world_level": 6,
+  "stamina": 300,
+  "reserve_stamina": 0,
+  "next_recover_time_ms": 0,
+  "signature": "",
+  "current_head_icon_id": 200139,
+  "unlocked_head_icon_ids": [
+    200139
+  ],
+  "head_frame_expire_time": 4294967295,
+  "head_frame_item_id": 226004,
+  "current_personal_card_id": 253001,
+  "unlocked_personal_card_ids": [
+    253001
+  ],
+  "assist_avatar_ids": [
+    1407,
+    1403,
+    1402
+  ],
+  "display_avatars": [
+    {
+      "avatar_id": 1401,
+      "pos": 1
+    },
+    {
+      "avatar_id": 1001,
+      "pos": 2
+    },
+    {
+      "avatar_id": 1225,
+      "pos": 3
+    },
+    {
+      "avatar_id": 1317,
+      "pos": 4
+    },
+    {
+      "avatar_id": 1222,
+      "pos": 5
+    }
+  ],
+  "gameplay_birthday": 101,
+  "cur_chat_bubble": 0,
+  "cur_phone_theme": 0,
+  "cur_phone_case": 254001,
+  "owned_chat_bubbles": [
+    0
+  ],
+  "owned_phone_themes": [
+    0
+  ],
+  "owned_phone_cases": [
+    254001
+  ],
+  "entry_id": 2031301,
+  "plane_id": 20313,
+  "floor_id": 20313001,
+  "teleport_id": 1,
+  "x": 40748,
+  "y": 192819,
+  "z": 439218,
+  "calyx_x": 0,
+  "calyx_y": 0,
+  "calyx_z": 0,
+  "map_layer": 2,
+  "calyx_group_id": 0,
+  "calyx_inst_id": 0,
+  "calyx_entity_id": 0,
+  "calyx_prop_id": 0,
+  "current_lineup_index": 1,
+  "lineups": {
+    "0": {
+      "index": 0,
+      "name": "Team 1",
+      "leader_slot": 0,
+      "avatar_ids": [
+        1321,
+        1310,
+        1225,
+        8006
+      ],
+      "mp": 5,
+      "max_mp": 5
+    },
+    "1": {
+      "index": 1,
+      "name": "Team 2",
+      "leader_slot": 0,
+      "avatar_ids": null,
+      "mp": 5,
+      "max_mp": 5
+    },
+    "2": {
+      "index": 2,
+      "name": "Team 3",
+      "leader_slot": 0,
+      "avatar_ids": null,
+      "mp": 5,
+      "max_mp": 5
+    },
+    "3": {
+      "index": 3,
+      "name": "Team 4",
+      "leader_slot": 0,
+      "avatar_ids": null,
+      "mp": 5,
+      "max_mp": 5
+    },
+    "4": {
+      "index": 4,
+      "name": "Team 5",
+      "leader_slot": 0,
+      "avatar_ids": null,
+      "mp": 5,
+      "max_mp": 5
+    },
+    "5": {
+      "index": 5,
+      "name": "Team 6",
+      "leader_slot": 0,
+      "avatar_ids": null,
+      "mp": 5,
+      "max_mp": 5
+    },
+    "6": {
+      "index": 6,
+      "name": "Team 7",
+      "leader_slot": 0,
+      "avatar_ids": null,
+      "mp": 5,
+      "max_mp": 5
+    },
+    "7": {
+      "index": 7,
+      "name": "Team 8",
+      "leader_slot": 0,
+      "avatar_ids": null,
+      "mp": 5,
+      "max_mp": 5
+    },
+    "8": {
+      "index": 8,
+      "name": "Team 9",
+      "leader_slot": 0,
+      "avatar_ids": null,
+      "mp": 5,
+      "max_mp": 5
+    }
+  },
+  "avatar_enhanced_ids": {},
+  "current_multi_path": {},
+  "created_at": "0001-01-01T00:00:00Z",
+  "updated_at": "2025-12-23T19:08:57.6040231-08:00"
+}
