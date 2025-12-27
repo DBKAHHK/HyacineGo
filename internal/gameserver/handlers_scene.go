@@ -145,12 +145,18 @@ func (s *Server) registerSceneHandlers() {
 			entryID := req.GetEntryId()
 			teleportID := req.GetTeleportId()
 
+			// Ensure we have a baseline entry id for resolving floor/plane and (optional) teleport anchor.
+			if entryID == 0 {
+				if p != nil && p.EntryID != 0 {
+					entryID = p.EntryID
+				} else {
+					entryID = s.scene.EntryID
+				}
+			}
+
 			// Some client flows provide only teleport_id, with entry_id left as 0.
 			if teleportID != 0 {
-				if tgt, ok := s.resolveTeleportTarget(teleportID); ok {
-					if entryID == 0 && tgt.EntryID != 0 {
-						entryID = tgt.EntryID
-					}
+				if tgt, ok := s.resolveTeleportTarget(entryID, teleportID); ok {
 					if tgt.PlaneID != 0 {
 						activeScene.PlaneID = tgt.PlaneID
 					}
@@ -163,6 +169,14 @@ func (s *Server) registerSceneHandlers() {
 					} else if tgt.Pos != nil {
 						p.X, p.Y, p.Z = tgt.Pos.GetX(), tgt.Pos.GetY(), tgt.Pos.GetZ()
 					}
+					slog.Debug("传送点解析成功", "teleportID", teleportID, "entryID", entryID, "planeID", activeScene.PlaneID, "floorID", activeScene.FloorID)
+				} else {
+					slog.Debug("传送点解析失败，使用默认场景", "teleportID", teleportID)
+					// 如果传送点解析失败，使用默认场景
+					activeScene.PlaneID = s.scene.PlaneID
+					activeScene.FloorID = s.scene.FloorID
+					activeScene.EntryID = s.scene.EntryID
+					entryID = s.scene.EntryID
 				}
 			} else if pos := req.GetBCPPMONGJGF(); pos != nil {
 				// Some requests only provide an explicit position.
@@ -390,34 +404,11 @@ func (s *Server) registerSceneHandlers() {
 			req := &pb.GetUnlockTeleportCsReq{}
 			_ = proto.Unmarshal(payload, req)
 
+			// Match Java behavior: entry_id_list -> teleports (MappingInfoID) for those entries.
 			var unlockList []uint32
-			notifyEntryID := uint32(0)
 			if s.data != nil {
-				entries := req.GetEntryIdList()
-				if len(entries) == 0 {
-					// If client didn't provide entry list, unlock teleports for current entry.
-					entries = []uint32{s.scene.EntryID}
-					if ctx.Session != nil && ctx.Session.UID != 0 && s.db != nil {
-						if p, ok := s.db.GetPlayerByUID(ctx.Session.UID); ok && p != nil && p.EntryID != 0 {
-							entries = []uint32{p.EntryID}
-						}
-					}
-				}
-				if len(entries) > 0 {
-					notifyEntryID = entries[0]
-				}
-				if out, err := scene.UnlockTeleportsForEntries(s.data, entries); err == nil {
+				if out, err := scene.UnlockTeleportsForEntries(s.data, req.GetEntryIdList()); err == nil {
 					unlockList = out
-				}
-			}
-
-			// Some clients expect individual unlock notifies for the map teleport UI.
-			if notifyEntryID != 0 && len(unlockList) > 0 {
-				for _, id := range unlockList {
-					ctx.Send(packet.UnlockTeleportNotify, &pb.UnlockTeleportNotify{
-						EntryId:    notifyEntryID,
-						TeleportId: id,
-					})
 				}
 			}
 			ctx.Send(packet.GetUnlockTeleportScRsp, &pb.GetUnlockTeleportScRsp{

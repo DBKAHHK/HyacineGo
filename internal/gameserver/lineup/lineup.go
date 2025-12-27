@@ -45,6 +45,67 @@ func EnsureDefaults(p *player.Player) {
 		}
 	}
 
+	// 确保多命途设置正确
+	if p.CurrentMultiPath == nil {
+		p.CurrentMultiPath = map[uint32]uint32{}
+	}
+
+	// Back-compat: older saves may use 8002 as the Trailblazer growth key (female).
+	if p.CurrentMultiPath[8001] == 0 && p.CurrentMultiPath[8002] != 0 {
+		p.CurrentMultiPath[8001] = p.CurrentMultiPath[8002]
+		delete(p.CurrentMultiPath, 8002)
+	}
+
+	// 如果性别未设置，尝试从现有角色推断
+	if p.Gender == player.GenderNone {
+		// Prefer the currently selected multi-path (if any).
+		if cur := p.CurrentMultiPath[8001]; cur != 0 {
+			if (cur % 2) == 1 {
+				p.Gender = player.GenderMan
+			} else {
+				p.Gender = player.GenderWoman
+			}
+		}
+
+		if p.Gender == player.GenderNone {
+			// Fall back to scanning existing lineup ids.
+			foundTB := uint32(0)
+			for _, lu := range p.Lineups {
+				if lu == nil {
+					continue
+				}
+				for _, id := range lu.AvatarIDs {
+					if id >= 8001 && id <= 8008 {
+						foundTB = id
+						break
+					}
+				}
+				if foundTB != 0 {
+					break
+				}
+			}
+			if foundTB != 0 {
+				if (foundTB % 2) == 1 {
+					p.Gender = player.GenderMan
+				} else {
+					p.Gender = player.GenderWoman
+				}
+				if p.CurrentMultiPath[8001] == 0 {
+					p.CurrentMultiPath[8001] = foundTB
+				}
+			}
+		}
+	}
+
+	// Ensure a default current Trailblazer variant is always selected once gender is known.
+	if p.CurrentMultiPath[8001] == 0 {
+		if p.Gender == player.GenderMan {
+			p.CurrentMultiPath[8001] = 8005
+		} else if p.Gender == player.GenderWoman {
+			p.CurrentMultiPath[8001] = 8006
+		}
+	}
+
 	// Fill team 1 with some owned avatars if empty.
 	// Also replace the initial placeholder lineup ([8001]) if we have a richer owned list.
 	if len(p.Lineups[0].AvatarIDs) == 0 || (len(p.Lineups[0].AvatarIDs) == 1 && p.Lineups[0].AvatarIDs[0] == 8001) {
@@ -53,6 +114,19 @@ func EnsureDefaults(p *player.Player) {
 			ids[len(ids)-1] = 8005
 		}
 		p.Lineups[0].AvatarIDs = ids
+	}
+
+	// 确保当前队伍至少有一个角色
+	if p.CurrentLineupIndex < DefaultTeamCount {
+		currentLineup := p.Lineups[p.CurrentLineupIndex]
+		if currentLineup != nil && len(currentLineup.AvatarIDs) == 0 {
+			// 添加默认角色（开拓者）
+			if p.Gender == player.GenderMan {
+				currentLineup.AvatarIDs = []uint32{8005} // 男开拓者
+			} else {
+				currentLineup.AvatarIDs = []uint32{8006} // 女开拓者
+			}
+		}
 	}
 }
 

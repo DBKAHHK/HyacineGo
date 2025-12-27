@@ -69,7 +69,7 @@ type Player struct {
 
 	// Avatar overrides.
 	AvatarEnhancedIDs map[uint32]uint32 `json:"avatar_enhanced_ids"`
-	// Current selected multi-path avatar per growth avatar id (e.g. 8002->8006).
+	// Current selected multi-path avatar per growth avatar id (e.g. 8001->8006 for Trailblazer, 1001->1224 for March 7th).
 	CurrentMultiPath map[uint32]uint32 `json:"current_multi_path"`
 
 	CreatedAt time.Time `json:"created_at"`

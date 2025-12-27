@@ -111,15 +111,15 @@ func (s *Server) registerLoginHandlers() {
 				if p.CurrentMultiPath == nil {
 					p.CurrentMultiPath = map[uint32]uint32{}
 				}
-				if p.Gender == player.GenderMan {
-					if p.CurrentMultiPath[8001] == 0 {
+				// Multi-path Trailblazer uses a single base key (8001) for the current selection.
+				if p.CurrentMultiPath[8001] == 0 {
+					if p.Gender == player.GenderMan {
 						p.CurrentMultiPath[8001] = 8005
-					}
-				} else if p.Gender == player.GenderWoman {
-					if p.CurrentMultiPath[8002] == 0 {
-						p.CurrentMultiPath[8002] = 8006
+					} else if p.Gender == player.GenderWoman {
+						p.CurrentMultiPath[8001] = 8006
 					}
 				}
+				delete(p.CurrentMultiPath, 8002) // back-compat cleanup
 				_ = s.ensurePlayerDefaults(p)
 			}
 			p.Touch()
@@ -189,15 +189,15 @@ func (s *Server) registerLoginHandlers() {
 			if p.CurrentMultiPath == nil {
 				p.CurrentMultiPath = map[uint32]uint32{}
 			}
-			if p.Gender == player.GenderMan {
-				if p.CurrentMultiPath[8001] == 0 {
+			// Multi-path Trailblazer uses a single base key (8001) for the current selection.
+			if p.CurrentMultiPath[8001] == 0 {
+				if p.Gender == player.GenderMan {
 					p.CurrentMultiPath[8001] = 8005
-				}
-			} else if p.Gender == player.GenderWoman {
-				if p.CurrentMultiPath[8002] == 0 {
-					p.CurrentMultiPath[8002] = 8006
+				} else if p.Gender == player.GenderWoman {
+					p.CurrentMultiPath[8001] = 8006
 				}
 			}
+			delete(p.CurrentMultiPath, 8002) // back-compat cleanup
 			_ = s.ensurePlayerDefaults(p)
 			p.Touch()
 			if s.db != nil {

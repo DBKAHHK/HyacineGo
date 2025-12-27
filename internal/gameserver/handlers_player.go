@@ -32,10 +32,35 @@ func (s *Server) registerPlayerHandlers() {
 			// Ensure defaults are consistent with freesr-data when available.
 			_ = s.ensurePlayerDefaults(p)
 			avatarList := s.buildAvatarList(p)
+			curPaths := map[uint32]pb.MultiPathAvatarType{}
+			if p != nil {
+				curPaths[8001] = pb.MultiPathAvatarType(s.currentTrailblazerAvatarID(p))
+				// March 7th is also multi-path (1001/1224) when present.
+				if ids := s.ownedAvatarIDsRaw(p); len(ids) > 0 {
+					hasMarch := false
+					for _, id := range ids {
+						if id == 1001 || id == 1224 {
+							hasMarch = true
+							break
+						}
+					}
+					if hasMarch {
+						march := uint32(1001)
+						if p.CurrentMultiPath != nil {
+							if v := p.CurrentMultiPath[1001]; v != 0 {
+								march = v
+							}
+						}
+						curPaths[1001] = pb.MultiPathAvatarType(march)
+					}
+				}
+			}
 			ctx.Send(packet.GetAvatarDataScRsp, &pb.GetAvatarDataScRsp{
-				Retcode:    0,
-				IsGetAll:   true,
-				AvatarList: avatarList,
+				Retcode:                 0,
+				IsGetAll:                true,
+				AvatarList:              avatarList,
+				CurAvatarPath:           curPaths,
+				MultiPathAvatarInfoList: s.buildMultiPathAvatarInfoList(p),
 			})
 		},
 	})

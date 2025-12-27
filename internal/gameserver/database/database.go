@@ -239,9 +239,19 @@ func (db *DataBase) EnsurePlayerForAccount(accountUID string, reservedPlayerUID 
 
 	// Try load existing file.
 	if loaded, err := db.loadPlayerLocked(uid); err == nil && loaded != nil {
+		// Older player files may miss uid/account_uid; normalize to the requested identity.
+		if loaded.UID == 0 {
+			loaded.UID = uid
+		}
+		if strings.TrimSpace(loaded.AccountUID) == "" {
+			loaded.AccountUID = accountUID
+		}
 		db.playersByUID[loaded.UID] = loaded
 		db.playersByAccountUID[loaded.AccountUID] = loaded
 		return loaded, false, nil
+	} else if err != nil && !os.IsNotExist(err) {
+		// Don't silently overwrite an existing (but invalid) player file with template defaults.
+		return nil, false, err
 	}
 
 	p := db.newPlayerLocked(uid, accountUID)
@@ -310,6 +320,9 @@ func (db *DataBase) loadPlayerLocked(uid uint32) (*player.Player, error) {
 	var p player.Player
 	if err := json.Unmarshal(raw, &p); err != nil {
 		return nil, err
+	}
+	if p.UID == 0 {
+		p.UID = uid
 	}
 	return &p, nil
 }

@@ -158,23 +158,6 @@ func (s *Server) buildBattleAvatar(p *player.Player, avatarID, index, worldLevel
 			if preset.SpMax > 0 {
 				maxSp = preset.SpMax
 			}
-			curSp = preset.SpValue
-			if len(preset.Data.Skills) > 0 {
-				trees := make([]*pb.AvatarSkillTree, 0, len(preset.Data.Skills))
-				for k, v := range preset.Data.Skills {
-					pointID := uint32(0)
-					// skill ids are stored as strings in freesr preset
-					// ignore parse errors (best-effort)
-					if parsed, err := parseUint32(k); err == nil {
-						pointID = parsed
-					}
-					if pointID == 0 {
-						continue
-					}
-					trees = append(trees, &pb.AvatarSkillTree{PointId: pointID, Level: uint32(v)})
-				}
-				skillTrees = trees
-			}
 		}
 	}
 
@@ -236,8 +219,8 @@ func (s *Server) buildBattleRelicList(avatarID uint32) []*pb.BattleRelic {
 			sub = append(sub, &pb.RelicAffix{AffixId: sa.SubAffixID, Cnt: sa.Count, Step: sa.Step})
 		}
 		out = append(out, &pb.BattleRelic{
-			Id:          r.RelicID,
-			Level:       r.Level,
+			Id:           r.RelicID,
+			Level:        r.Level,
 			MainAffixId:  r.MainAffixID,
 			SubAffixList: sub,
 			UniqueId:     uid,
@@ -252,4 +235,3 @@ func (s *Server) buildBattleRelicList(avatarID uint32) []*pb.BattleRelic {
 	sort.Slice(out, func(i, j int) bool { return out[i].UniqueId < out[j].UniqueId })
 	return out
 }
-

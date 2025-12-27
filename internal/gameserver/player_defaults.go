@@ -10,16 +10,19 @@ func heroAvatarID(p *player.Player) uint32 {
 	if p != nil && p.Gender != 0 {
 		gender = p.Gender
 	}
-	growth := uint32(8002)
-	if gender == player.GenderMan {
-		growth = 8001
-	}
 	if p != nil && p.CurrentMultiPath != nil {
-		if hero := p.CurrentMultiPath[growth]; hero != 0 {
+		if hero := p.CurrentMultiPath[8001]; hero != 0 {
+			return hero
+		}
+		// Back-compat: older saves used 8002 as the growth key for female Trailblazer.
+		if hero := p.CurrentMultiPath[8002]; hero != 0 {
 			return hero
 		}
 	}
-	return 0
+	if gender == player.GenderMan {
+		return 8005
+	}
+	return 8006
 }
 
 func ensureLineupHero(lu *player.LineupData, hero uint32) bool {

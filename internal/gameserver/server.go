@@ -116,7 +116,9 @@ func New(addr string, opts Options, metrics *observability.Metrics) *Server {
 	if sc, err := scene.PickDefault(s.data); err == nil {
 		s.scene = sc
 	} else {
-		s.scene = scene.DefaultScene{EntryID: 1000003, PlaneID: 10000, FloorID: 10000003, WorldID: 1}
+		// 使用与PickDefault相同的默认值
+		s.scene = scene.DefaultScene{EntryID: 2031301, PlaneID: 20313, FloorID: 20313001, WorldID: 401}
+		slog.Warn("使用默认场景配置，因为PickDefault失败", "err", err)
 	}
 	s.warmupGameData()
 	return s
@@ -161,6 +163,27 @@ func (s *Server) warmupGameData() {
 		slog.Warn("data load failed", "table", "TeleportConfig", "err", err)
 	} else {
 		slog.Debug("data loaded", "table", "TeleportConfig", "rows", len(t))
+	}
+
+	// 预加载和验证默认场景的楼层信息
+	if s.scene.FloorID != 0 {
+		if floor, err := s.data.LevelOutputFloor(int(s.scene.FloorID)); err != nil {
+			slog.Warn("默认场景楼层加载失败", "floorID", s.scene.FloorID, "err", err)
+		} else if floor == nil {
+			slog.Warn("默认场景楼层为空", "floorID", s.scene.FloorID)
+		} else {
+			slog.Debug("默认场景楼层加载成功", "floorID", s.scene.FloorID, "groups", len(floor.GroupInstanceList))
+
+			// 验证组路径
+			for _, gi := range floor.GroupInstanceList {
+				if gi.IsDelete || gi.GroupPath == "" || gi.ID == 0 {
+					continue
+				}
+				if _, err := s.data.LoadLevelOutputGroupByPath(gi.GroupPath); err != nil {
+					slog.Warn("组加载失败", "groupID", gi.ID, "groupPath", gi.GroupPath, "err", err)
+				}
+			}
+		}
 	}
 }
 
