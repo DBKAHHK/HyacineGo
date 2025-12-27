@@ -1,8 +1,8 @@
 {
-  "uid": 0,
-  "account_uid": "",
+  "uid": 100000001,
+  "account_uid": "1766524402225414000",
   "nickname": "HyacineLover",
-  "gender": 2,
+  "gender": 1,
   "last_set_nickname_time_ms": 0,
   "level": 70,
   "exp": 0,
@@ -22,11 +22,15 @@
     253001
   ],
   "assist_avatar_ids": [
-    1407,
-    1403,
-    1402
+    1321,
+    1310,
+    1225
   ],
   "display_avatars": [
+    {
+      "avatar_id": 8005,
+      "pos": 1
+    },
     {
       "avatar_id": 1401,
       "pos": 1
@@ -71,22 +75,22 @@
   "calyx_x": 0,
   "calyx_y": 0,
   "calyx_z": 0,
-  "map_layer": 2,
+  "map_layer": 0,
   "calyx_group_id": 0,
   "calyx_inst_id": 0,
   "calyx_entity_id": 0,
   "calyx_prop_id": 0,
-  "current_lineup_index": 0,
+  "current_lineup_index": 1,
   "lineups": {
     "0": {
       "index": 0,
       "name": "Team 1",
       "leader_slot": 0,
       "avatar_ids": [
+        8005,
         1321,
         1310,
-        1225,
-        8006
+        1225
       ],
       "mp": 5,
       "max_mp": 5
@@ -95,7 +99,12 @@
       "index": 1,
       "name": "Team 2",
       "leader_slot": 0,
-      "avatar_ids": [],
+      "avatar_ids": [
+        8005,
+        1321,
+        1310,
+        1225
+      ],
       "mp": 5,
       "max_mp": 5
     },
@@ -103,7 +112,7 @@
       "index": 2,
       "name": "Team 3",
       "leader_slot": 0,
-      "avatar_ids": [],
+      "avatar_ids": null,
       "mp": 5,
       "max_mp": 5
     },
@@ -111,7 +120,7 @@
       "index": 3,
       "name": "Team 4",
       "leader_slot": 0,
-      "avatar_ids": [],
+      "avatar_ids": null,
       "mp": 5,
       "max_mp": 5
     },
@@ -119,7 +128,7 @@
       "index": 4,
       "name": "Team 5",
       "leader_slot": 0,
-      "avatar_ids": [],
+      "avatar_ids": null,
       "mp": 5,
       "max_mp": 5
     },
@@ -127,7 +136,7 @@
       "index": 5,
       "name": "Team 6",
       "leader_slot": 0,
-      "avatar_ids": [],
+      "avatar_ids": null,
       "mp": 5,
       "max_mp": 5
     },
@@ -135,7 +144,7 @@
       "index": 6,
       "name": "Team 7",
       "leader_slot": 0,
-      "avatar_ids": [],
+      "avatar_ids": null,
       "mp": 5,
       "max_mp": 5
     },
@@ -143,7 +152,7 @@
       "index": 7,
       "name": "Team 8",
       "leader_slot": 0,
-      "avatar_ids": [],
+      "avatar_ids": null,
       "mp": 5,
       "max_mp": 5
     },
@@ -151,14 +160,15 @@
       "index": 8,
       "name": "Team 9",
       "leader_slot": 0,
-      "avatar_ids": [],
+      "avatar_ids": null,
       "mp": 5,
       "max_mp": 5
     }
   },
   "avatar_enhanced_ids": {},
   "current_multi_path": {
-    "8002": 8006,
-    "1001": 1001
-  }
+    "8001": 8005
+  },
+  "created_at": "0001-01-01T00:00:00Z",
+  "updated_at": "2025-12-26T14:02:05.5633838-08:00"
 }
